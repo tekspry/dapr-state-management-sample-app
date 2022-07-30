@@ -1,0 +1,29 @@
+.logo {
+  height: 150px;
+  cursor: pointer;
+}
+
+.subtitle {
+  font-style: italic;
+  font-size: x-large;
+  color: coral;
+}
+
+.themeFontColor {
+  color: coral;
+}
+
+tr {
+  cursor: pointer;
+}
+
+.cart {
+  height: 50px;
+  cursor: pointer;
+  margin-top: 80px;
+}
+
+.productImage {
+  height: 40px;
+  width: 40px;
+}

@@ -1,0 +1,17 @@
+﻿{
+  
+ 
+  "profiles": {
+    "ecom.spa": {
+      "commandName": "Project",
+      "dotnetRunMessage":  true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:4000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
+      }
+    }
+    
+  }
+}
