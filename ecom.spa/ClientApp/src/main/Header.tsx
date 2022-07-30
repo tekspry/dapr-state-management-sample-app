@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import logo from "./Teckspry-logo.png";
 import cart from "./cart.png";
-import {useFetchNoOfItems} from "../hooks/CartHooks";
 
 type Args = {
   subtitle: string;
