@@ -7,8 +7,7 @@ type Args = {
   noOfItems: string;
 };
 
-const Header = ({ subtitle }: Args) => {
-    //const { data } = useFetchNoOfItems(); 
+const Header = ({ subtitle }: Args) => {    
   const nav = useNavigate();
   return (
     <header className="row mb-4">
