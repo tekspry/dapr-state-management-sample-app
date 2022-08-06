@@ -1,6 +1,7 @@
 .logo {
-  height: 150px;
+  height: 100px;
   cursor: pointer;
+  margin-top: 20px;
 }
 
 .subtitle {
@@ -20,7 +21,7 @@ tr {
 .cart {
   height: 50px;
   cursor: pointer;
-  margin-top: 80px;
+  margin-top: 40px;
 }
 
 .productImage {

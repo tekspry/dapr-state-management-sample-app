@@ -16,15 +16,14 @@ namespace ecom.product.database.ProductDB
             this.daprClient = daprClient;
             this.logger = logger;
 
-            LoadSampleData();
-            SaveProductListToCacheStore(products);
+            LoadSampleData();            
         }
         public Task<Product> GetProductById(string productId)
         {
             var @product = products.FirstOrDefault(e => e.ProductId == productId);
             if (@product == null)
             {
-                throw new InvalidOperationException("Event not found");
+                throw new InvalidOperationException("product not found");
             }
             return Task.FromResult(@product);
         }
@@ -32,22 +31,18 @@ namespace ecom.product.database.ProductDB
         public async Task<IEnumerable<Product>> GetProducts()
         {
             var productList = await daprClient.GetStateAsync<List<Product>>(cacheStoreName, "productlist");
-            //try
-            //{
-            //    var connectionString = await GetConnectionString();
-            //    logger.LogInformation($"Connection string {connectionString}");
-            //}
-            //catch (Exception e)
-            //{
-            //    logger.LogError(e, "Failed to fetch the connection string");
-            //}
+            
             return productList;
         }
 
         public async Task<string> CreateProduct(Product product)
         {
             product.ProductId = Guid.NewGuid().ToString();
-            products.Add(product);
+            var key = $"productlist";
+            var products = await daprClient.GetStateAsync<List<Product>>(cacheStoreName, "productlist");
+
+            products.Add(product);     
+            await this.SaveProductListToCacheStore(products);
 
             return await Task.FromResult(product.ProductId);
         }
@@ -94,32 +89,15 @@ namespace ecom.product.database.ProductDB
                 Seller = "Bag Store"
 
             });
+
+            SaveProductListToCacheStore(products);
         }
 
-        private void SaveProductListToCacheStore(List<Product> products)
+        private async Task SaveProductListToCacheStore(List<Product> products)
         {
-            var key = $"productlist";
-            //await SaveToCacheStore(key, cart);
-            daprClient.SaveStateAsync(cacheStoreName, key, products);
+            var key = $"productlist";            
+            await daprClient.SaveStateAsync(cacheStoreName, key, products);
             logger.LogInformation($"Created new product in cache store {key}");
         }
-
-        private async Task<string> GetConnectionString()
-        {
-            // using the DAPR_HTTP_PORT environment variable to detect if we're
-            // not running in DAPR
-            var daprPort = Environment.GetEnvironmentVariable("DAPR_HTTP_PORT");
-            if (string.IsNullOrEmpty(daprPort)) return "Not using Dapr";
-
-            // because in Kubernetes we want to use the "kubernetes" secret store,
-            // we're making the secret store name configurable here
-            var secretStoreName = Environment.GetEnvironmentVariable("SECRET_STORE_NAME");
-            if (string.IsNullOrEmpty(secretStoreName)) secretStoreName = "secretstore";
-            var secretName = "eventcatalogdb";
-            var secret = await daprClient.GetSecretAsync(secretStoreName, secretName);
-            Console.WriteLine(secret[secretName]);
-            return secret[secretName];
-        }
-        
     }
 }
