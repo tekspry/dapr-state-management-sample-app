@@ -22,8 +22,7 @@ const ProductForm = ({ product, submitted }: Args) => {
     e.target.files &&
       e.target.files[0] &&
       setProductState({
-        ...productState,
-        //imageUrl: await toBase64(e.target.files[0]),
+        ...productState,        
         imageUrl: await e.target.files[0].name,
       });
   };
@@ -86,9 +85,7 @@ const ProductForm = ({ product, submitted }: Args) => {
           onChange={onFileSelected}
         />
       </div>
-      <div className="mt-2">
-        <img src={productState.imageUrl}></img>
-      </div>
+      
       <button
         className="btn btn-primary mt-2"
         disabled={!productState.name || !productState.price}
