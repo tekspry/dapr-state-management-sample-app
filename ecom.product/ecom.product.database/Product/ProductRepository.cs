@@ -18,14 +18,15 @@ namespace ecom.product.database.ProductDB
 
             LoadSampleData();            
         }
-        public Task<Product> GetProductById(string productId)
+        public async Task<Product> GetProductById(string productId)
         {
+            var products = await daprClient.GetStateAsync<List<Product>>(cacheStoreName, "productlist");
             var @product = products.FirstOrDefault(e => e.ProductId == productId);
             if (@product == null)
             {
-                throw new InvalidOperationException("product not found");
+                throw new InvalidOperationException("Event not found");
             }
-            return Task.FromResult(@product);
+            return @product;
         }
 
         public async Task<IEnumerable<Product>> GetProducts()

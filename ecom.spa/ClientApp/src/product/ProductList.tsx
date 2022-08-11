@@ -1,8 +1,10 @@
 import { Product } from "../types/product";
 import {useFetchProducts} from "../hooks/ProductHooks";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ProductList = () => {
+  const nav = useNavigate();
   const { data } = useFetchProducts();    
 
     return (
@@ -24,7 +26,7 @@ const ProductList = () => {
         <tbody>
             {data &&
                 data.map((p: Product) => (
-                    <tr key={p.productId}>
+                    <tr key={p.productId} onClick={() => nav(`/product/${p.productId}`)}>
                         <td><img className="productImage" src={"http://localhost:3000/" + p.imageUrl}></img></td>
                         <td>{p.name}</td>
                         <td>{p.price}</td>

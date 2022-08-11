@@ -25,4 +25,24 @@ const useAddProduct = () => {
   );
 };
 
-export { useFetchProducts, useAddProduct};
+const useFetchProduct = (id: string) => {
+  return useQuery<Product, AxiosError>(["products", id], () =>
+    axios.get(`${Config.baseApiUrl}/product/${id}`).then((resp) => resp.data)
+  );
+};
+
+const useDeleteProduct = () => {
+  const queryClient = useQueryClient();
+  const nav = useNavigate();
+  return useMutation<AxiosResponse, AxiosError, Product>(
+    (p) => axios.delete(`${Config.baseApiUrl}/products/${p.productId}`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("products");
+        nav("/");
+      },
+    }
+  );
+};
+
+export { useFetchProducts, useAddProduct, useFetchProduct, useDeleteProduct};
