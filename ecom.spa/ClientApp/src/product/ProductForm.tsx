@@ -17,7 +17,7 @@ const ProductForm = ({ product, submitted }: Args) => {
 
   const onFileSelected = async (
     e: React.ChangeEvent<HTMLInputElement>
-  ): Promise<void> => {debugger
+  ): Promise<void> => {
     e.preventDefault();
     e.target.files &&
       e.target.files[0] &&

@@ -23,7 +23,7 @@ const ProductDetail = () => {
         <div className="row">
           <img
             className="img-fluid"
-            src={data.imageUrl ? data.imageUrl : defaultImage}
+            src={"http://localhost:3000/" + data.imageUrl ? "http://localhost:3000/" + data.imageUrl : "http://localhost:3000/" + defaultImage}
             alt="Product pic"
           />
         </div>      
